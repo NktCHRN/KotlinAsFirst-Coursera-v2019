@@ -63,10 +63,10 @@ fun circleInside(
     r = r2 - r1
     var varList = mutableListOf(x, y, r)
     for (z in 0..2) {
-        if (varList[z] < 0) varList[z] = -sqr(varList[z])
+        if (varList[z] < 0.0) varList[z] = -sqr(varList[z])
         else varList[z] = sqr(varList[z])
     }
-    return if (x + y <= r) true else false
+    return if (varList[0] + varList[1] <= varList[2]) true else false
 }
 
 /**

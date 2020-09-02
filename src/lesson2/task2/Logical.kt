@@ -3,6 +3,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import kotlin.math.*
 
 /**
  * Пример
@@ -54,20 +55,7 @@ fun daysInMonth(month: Int, year: Int): Int {
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean {
-    var x: Double
-    var y: Double
-    var r: Double
-    x = x2 - x1
-    y = y2 - y1
-    r = r2 - r1
-    var varList = mutableListOf(x, y, r)
-    for (z in 0..2) {
-        if (varList[z] < 0.0) varList[z] = -sqr(varList[z])
-        else varList[z] = sqr(varList[z])
-    }
-    return if (varList[0] + varList[1] <= varList[2]) true else false
-}
+): Boolean = if(sqrt(sqr(x2 - x1) + sqr(y2 - y1)) <= r2 - r1) true else false
 
 /**
  * Средняя

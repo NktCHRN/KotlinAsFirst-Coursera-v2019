@@ -67,7 +67,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var counter = 0
+    var x = n
+    do {
+        counter ++
+        x /= 10
+    } while (x > 0)
+    return counter
+}
 
 /**
  * Простая
@@ -75,29 +83,74 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var result = 1
+    var r1 = 0
+    for(i in 1..n-1) {
+        result += r1
+        r1 = result - r1
+    }
+    return result
+    //
+    //if (n <= 2) return 1
+    //else return fib(n - 1) + fib(n - 2)
+}
 
 /**
  * Простая
- *
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var x: Int
+    val y: Int
+    if (m > n) {
+        x = m
+        y = n
+    }
+    else {
+        x = n
+        y = m
+    }
+    if (x % m == 0 && x % n == 0)
+        return x
+    else {
+        for (i in 2..y){
+            if ((x*i) % y == 0) return x*i
+        }
+    }
+    return -1
+}
 
 /**
  * Простая
- *
+ * ! Дод.
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    if (n % 2 == 0) return 2
+    else {
+        for (i in 3..n step 2)
+            if (n % i == 0)
+                return i
+        return 1
+    }
+}
 
 /**
  * Простая
- *
+ * 
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    if (n % 2 == 0) return n / 2
+    else {
+        for (i in 3..n / 2 step 2)
+            if (n % i == 0)
+                return n / i
+        return 1
+    }
+}
 
 /**
  * Простая
@@ -106,7 +159,16 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    if (m==1 || n==1) return true
+    if (m%2==0 && n%2 == 0) return false
+    if (m==n) return false
+    else {
+        for (i in 3..if (m>n) {if (n <= m/2) n else m/2} else {if (m <= n/2) m else n/2} step 2)
+            if (m % i == 0 && n % i == 0) return false
+        return true
+    }
+}
 
 /**
  * Простая

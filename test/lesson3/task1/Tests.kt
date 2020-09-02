@@ -139,6 +139,18 @@ class Tests {
         assertFalse(isCoPrime(37, 111))
         assertTrue(isCoPrime(1234567890, 908765431))
         assertTrue(isCoPrime(2109876543, 1234567891))
+        assertFalse(isCoPrime(26, 28))
+        assertTrue(isCoPrime(15, 16))
+        assertFalse(isCoPrime(2, 4))
+        assertTrue(isCoPrime(2, 3))
+        assertTrue(isCoPrime(239123912, 1))
+        assertFalse(isCoPrime(2, 2))
+        var count = 0
+        for (i in 1..10)
+            for (j in 1..10)
+                if (isCoPrime(i, j))
+                    count++
+        assertEquals(63, count)
     }
 
     @Test

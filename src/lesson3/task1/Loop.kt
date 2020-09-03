@@ -240,7 +240,7 @@ fun sin(x: Double, eps: Double): Double {
     var m: Double
     var xr = 0.0
     if (x > PI * 2){
-        for (i in 2..Int.MAX_VALUE){
+        for (i in 2..Int.MAX_VALUE step 2){
             if (x - PI * i <= PI * 2){
                 xr = x - PI * i
                 break
@@ -266,7 +266,28 @@ fun sin(x: Double, eps: Double): Double {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var s = 1.0
+    var c = 2
+    var m: Double
+    var xr = 0.0
+    if (x > PI * 2){
+        for (i in 2..Int.MAX_VALUE step 2){
+            if (x - PI * i <= PI * 2){
+                xr = x - PI * i
+                break
+            }
+        }
+    }
+    else xr = x
+    do {
+        m = xr.pow(c) / factorial(c)
+        if (c > 3 && c % 4 == 0) s += m
+        else s -= m
+        c += 2
+    } while (m >= eps)
+    return s
+}
 
 /**
  * Средняя

@@ -237,10 +237,9 @@ fun collatzSteps(x: Int): Int =
 fun sin(x: Double, eps: Double): Double {
     var s = 0.0
     var c = 1
-    var m = 1.0
+    var m: Double
     var xr = 0.0
     if (x > PI * 2){
-        val max = Int.MAX_VALUE
         for (i in 2..Int.MAX_VALUE){
             if (x - PI * i <= PI * 2){
                 xr = x - PI * i

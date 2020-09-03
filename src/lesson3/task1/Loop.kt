@@ -3,6 +3,8 @@
 package lesson3.task1
 
 import kotlin.math.sqrt
+import kotlin.math.pow
+import kotlin.math.PI
 
 /**
  * Пример
@@ -215,7 +217,13 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int =
+    when {
+        x == 1 -> 0
+        else -> {
+            1 + collatzSteps(if (x % 2 == 0) x/2 else 3*x+1)
+        }
+    }
 
 /**
  * Средняя
@@ -226,7 +234,31 @@ fun collatzSteps(x: Int): Int = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    println(" $x")
+    var s = 0.0
+    var c = 1
+    var m = 1.0
+    var xr = 0.0
+    if (x > PI * 2){
+        val max = Int.MAX_VALUE
+        for (i in 2..Int.MAX_VALUE){
+            if (x - PI * i <= PI * 2){
+                xr = x - PI * i
+                break
+            }
+        }
+    }
+    else xr = x
+    println("x $xr")
+    do {
+        m = xr.pow(c) / factorial(c)
+        if ((c + 1) % 4 == 0) s -= m
+        else s += m
+        c += 2
+    } while (m >= eps)
+    return s
+}
 
 /**
  * Средняя

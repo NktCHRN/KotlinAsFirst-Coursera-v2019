@@ -235,7 +235,6 @@ fun collatzSteps(x: Int): Int =
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
 fun sin(x: Double, eps: Double): Double {
-    println(" $x")
     var s = 0.0
     var c = 1
     var m = 1.0
@@ -250,7 +249,6 @@ fun sin(x: Double, eps: Double): Double {
         }
     }
     else xr = x
-    println("x $xr")
     do {
         m = xr.pow(c) / factorial(c)
         if ((c + 1) % 4 == 0) s -= m

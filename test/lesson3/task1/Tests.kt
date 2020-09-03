@@ -223,15 +223,19 @@ class Tests {
         assertEquals(111, revert(111))
         assertEquals(17571, revert(17571))
         assertEquals(123456789, revert(987654321))
+        assertEquals(123990547, revert(745099321))
     }
 
     @Test
     @Tag("Normal")
     fun isPalindrome() {
         assertTrue(isPalindrome(3))
+        assertTrue(isPalindrome(77))
+        assertFalse(isPalindrome(78))
         assertFalse(isPalindrome(3653))
         assertTrue(isPalindrome(15751))
         assertTrue(isPalindrome(24688642))
+        assertFalse(isPalindrome(Int.MAX_VALUE))
     }
 
     @Test
@@ -243,6 +247,8 @@ class Tests {
         assertFalse(hasDifferentDigits(0))
         assertFalse(hasDifferentDigits(777))
         assertTrue(hasDifferentDigits(31122))
+        assertTrue(hasDifferentDigits(1777))
+        assertFalse(hasDifferentDigits(7777))
     }
 
     @Test

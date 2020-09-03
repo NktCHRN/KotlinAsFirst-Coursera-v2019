@@ -296,7 +296,18 @@ fun cos(x: Double, eps: Double): Double {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    val digits = digitNumber(n)
+    var result = 0
+    var oldNumberNow = n
+    var number: Int
+    for (i in 0..digits-1){
+        number = oldNumberNow / 10.0.pow(digits - i - 1).toInt()
+        oldNumberNow -= number * 10.0.pow(digits - i - 1).toInt()
+        result += number * 10.0.pow(i).toInt()
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -307,7 +318,22 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var digits = digitNumber(n)
+    var oldNumberNow = n
+    for (i in 0..digits-1) {
+        if (digits > 2){
+            if (oldNumberNow / 10.0.pow(digits - 1).toInt() == oldNumberNow % 10) {
+                oldNumberNow -= oldNumberNow / 10.0.pow(digits - 1).toInt() * 10.0.pow(digits - 1).toInt()
+                oldNumberNow /= 10
+                digits = digitNumber(oldNumberNow)
+            }
+        }
+        else if (digits == 1) return true
+        else if (digits == 2 && oldNumberNow / 10 == oldNumberNow % 10) return true
+    }
+    return false
+}
 
 /**
  * Средняя
@@ -317,7 +343,12 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean =
+    when {
+        (digitNumber(n) == 1) -> false
+        (n % 10 != (n / 10) % 10) -> true
+        else -> hasDifferentDigits(n / 10)
+    }
 
 /**
  * Сложная

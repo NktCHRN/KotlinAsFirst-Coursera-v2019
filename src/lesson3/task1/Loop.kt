@@ -129,6 +129,7 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     if (n % 2 == 0) return 2
+    if (isPrime(n)) return n
     else {
         for (i in 3..n step 2)
             if (n % i == 0)
@@ -144,8 +145,9 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     if (n % 2 == 0) return n / 2
+    else if (isPrime(n)) return 1
     else {
-        for (i in 3..n / 2 step 2)
+        for (i in 3..(n / 2) step 2)
             if (n % i == 0)
                 return n / i
         return 1
@@ -163,11 +165,24 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     if (m==1 || n==1) return true
     if (m%2==0 && n%2 == 0) return false
     if (m==n) return false
-    else {
-        for (i in 3..if (m>n) {if (n <= m/2) n else m/2} else {if (m <= n/2) m else n/2} step 2)
-            if (m % i == 0 && n % i == 0) return false
-        return true
+    val x: Int
+    val y: Int
+    if (m > n) {
+        x = m
+        y = n
     }
+    else {
+        x = n
+        y = m
+    }
+    if (isPrime(y)){
+        if (x % y == 0) return false
+        else return true
+    }
+    for (i in 3..if (y <= x/2) y else {x/2} step 2) {
+        if (m % i == 0 && n % i == 0) return false
+    }
+    return true
 }
 
 /**
@@ -177,7 +192,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    for (i in m..n){
+        if ((sqrt(i.toDouble()).toInt() * sqrt(i.toDouble()).toInt()) == i) return true
+    }
+    return false
+}
 
 /**
  * Средняя

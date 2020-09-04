@@ -6,6 +6,7 @@ import kotlin.math.sqrt
 import kotlin.math.pow
 import kotlin.math.PI
 
+fun sqr(x: Int) = x * x
 /**
  * Пример
  *
@@ -359,7 +360,18 @@ fun hasDifferentDigits(n: Int): Boolean =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var c = 1
+    var f = 0
+    var numbersLeft = n
+    while (numbersLeft > 0) {
+        f = sqr(c)
+        numbersLeft -= digitNumber(f)
+        c++
+    }
+    f = (f / (10.0.pow(-numbersLeft).toInt())) % 10
+    return  f
+}
 
 /**
  * Сложная

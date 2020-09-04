@@ -71,8 +71,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
+    val number: Int
+    if (n < 0) number = -n
+    else number = n
     var counter = 0
-    var x = n
+    var x = number
     do {
         counter ++
         x /= 10
@@ -228,7 +231,7 @@ fun collatzSteps(x: Int): Int =
 
 /**
  * Средняя
- *
+ * !НЕ ПРОХОДИТ ПРОВЕРКИ!!!
  * Для заданного x рассчитать с заданной точностью eps
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю.
@@ -240,10 +243,18 @@ fun sin(x: Double, eps: Double): Double {
     var c = 1
     var m: Double
     var xr = 0.0
-    if (x > PI * 2){
+    if (x > PI * 2) {
         for (i in 2..Int.MAX_VALUE step 2){
             if (x - PI * i <= PI * 2){
                 xr = x - PI * i
+                break
+            }
+        }
+    }
+    else if (x < -(PI * 2)) {
+        for (i in 2..Int.MAX_VALUE step 2){
+            if (x + PI * i >= 0){
+                xr = x + PI * i
                 break
             }
         }
@@ -260,7 +271,7 @@ fun sin(x: Double, eps: Double): Double {
 
 /**
  * Средняя
- *
+ * !НЕ ПРОХОДИТ ПРОВЕРКИ!!!
  * Для заданного x рассчитать с заданной точностью eps
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
@@ -276,6 +287,14 @@ fun cos(x: Double, eps: Double): Double {
         for (i in 2..Int.MAX_VALUE step 2){
             if (x - PI * i <= PI * 2){
                 xr = x - PI * i
+                break
+            }
+        }
+    }
+    else if (x < -(PI * 2)) {
+        for (i in 2..Int.MAX_VALUE step 2){
+            if (x + PI * i >= -(PI * 2)){
+                xr = x + PI * i
                 break
             }
         }
@@ -319,22 +338,8 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean {
-    var digits = digitNumber(n)
-    var oldNumberNow = n
-    for (i in 0..digits-1) {
-        if (digits > 2){
-            if (oldNumberNow / 10.0.pow(digits - 1).toInt() == oldNumberNow % 10) {
-                oldNumberNow -= oldNumberNow / 10.0.pow(digits - 1).toInt() * 10.0.pow(digits - 1).toInt()
-                oldNumberNow /= 10
-                digits = digitNumber(oldNumberNow)
-            }
-        }
-        else if (digits == 1) return true
-        else if (digits == 2 && oldNumberNow / 10 == oldNumberNow % 10) return true
-    }
-    return false
-}
+fun isPalindrome(n: Int): Boolean =
+    if (revert(n) == n) true else false
 
 /**
  * Средняя

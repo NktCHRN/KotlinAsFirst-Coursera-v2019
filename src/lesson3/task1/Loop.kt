@@ -370,4 +370,15 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var c = 1
+    var f = 0
+    var numbersLeft = n
+    while (numbersLeft > 0) {
+        f = fib(c)
+        numbersLeft -= digitNumber(f)
+        c++
+    }
+    f = (f / (10.0.pow(-numbersLeft).toInt())) % 10
+    return  f
+}

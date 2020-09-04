@@ -271,5 +271,15 @@ class Tests {
         assertEquals(2, fibSequenceDigit(9))
         assertEquals(5, fibSequenceDigit(14))
         assertEquals(2, fibSequenceDigit(20))
+        assertEquals(1, fibSequenceDigit(32))
+        assertEquals(5, fibSequenceDigit(33))
+        assertEquals(9, fibSequenceDigit(34))
+        assertEquals(7, fibSequenceDigit(35))
+        var counter = 0
+        for (i in 1..50) {
+            if (fibSequenceDigit(i) == 1)
+                counter++
+        }
+        assertEquals(10, counter)
     }
 }

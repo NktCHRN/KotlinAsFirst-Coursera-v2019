@@ -386,12 +386,12 @@ fun threeRank(n: Int): String {
         4 -> result += "сорок "
         in 2..3 -> result += numbers[n / 10 % 10 - 1] + "дцать "
         1 -> {
-            when (n % 10) {
-                0 -> result += "десять "
-                1, 3 -> result += numbers[n % 10 - 1] + "надцать "
-                2 -> result += "двенадцать "
-                4 -> result += "четырнадцать "
-                else -> result += numbers[n % 10 - 1].replace("ь", "") + "надцать "
+            result += when (n % 10) {
+                0 -> "десять "
+                1, 3 -> numbers[n % 10 - 1] + "надцать "
+                2 -> "двенадцать "
+                4 -> "четырнадцать "
+                else -> numbers[n % 10 - 1].replace("ь", "") + "надцать "
             }
             return result
         }

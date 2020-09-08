@@ -167,6 +167,8 @@ class Tests {
         assertEquals(listOf(7, 7, 31, 31, 151, 151), factorize(1073676289))
         assertEquals(listOf(1073676287), factorize(1073676287))
         assertEquals(listOf(Int.MAX_VALUE), factorize(Int.MAX_VALUE))
+        assertEquals(listOf(2, 2, 185993), factorize(743972))
+        assertEquals(listOf(2, 2, 7, 7, 7, 7, 41), factorize(393764))
     }
 
     @Test
@@ -178,6 +180,7 @@ class Tests {
         assertEquals("7*7*31*31*151*151", factorizeToString(1073676289))
         assertEquals("1073676287", factorizeToString(1073676287))
         assertEquals(Int.MAX_VALUE.toString(), factorizeToString(Int.MAX_VALUE))
+        assertEquals("2*2*47*1933", factorizeToString(363404))
     }
 
     @Test
@@ -187,6 +190,7 @@ class Tests {
         assertEquals(listOf(1, 2, 1, 0), convert(100, 4))
         assertEquals(listOf(1, 3, 12), convert(250, 14))
         assertEquals(listOf(2, 14, 12), convert(1000, 19))
+        assertEquals(listOf(0), convert(0, 2))
     }
 
     @Test
@@ -198,6 +202,7 @@ class Tests {
         assertEquals("2ec", convertToString(1000, 19))
         assertEquals("z", convertToString(35, 36))
         assertEquals("a02220281", convertToString(Int.MAX_VALUE, 11))
+        assertEquals("0", convertToString(0, 2))
     }
 
     @Test
@@ -243,5 +248,10 @@ class Tests {
         assertEquals("двенадцать", russian(12))
         assertEquals("двести тридцать пять тысяч семьсот шестнадцать", russian(235716))
         assertEquals("девятьсот девяносто девять тысяч девятьсот девяносто девять", russian(999999))
+        assertEquals("два", russian(2))
+        assertEquals("один", russian(1))
+        assertEquals("сто один", russian(101))
+        assertEquals("сто одна тысяча", russian(101000))
+        assertEquals("шестьсот одиннадцать тысяч триста сорок четыре", russian(611344))
     }
 }

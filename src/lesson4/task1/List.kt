@@ -207,7 +207,7 @@ fun isPrime(n: Int): Boolean {
 fun factorize(n: Int): List<Int> {
     val primes: MutableList<Int> = mutableListOf()
     var nRem = n
-    if (n % 2 == 0) {
+    while (nRem % 2 == 0) {
         primes.add(2)
         nRem /= 2
     }
@@ -245,6 +245,9 @@ fun convert(n: Int, base: Int): List<Int> {
     while (nNow > 0) {
         result.add(nNow % base)
         nNow /= base
+    }
+    if (n == 0) {
+        result.add(0)
     }
     return result.asReversed()
 }
@@ -301,11 +304,11 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     val result: MutableList<Int> = mutableListOf()
-    for (symb in str) {
-        if (symb.toInt() in 97..122)
-            result.add(symb.toInt() + 10 - 97)
+    for (symbol in str) {
+        if (symbol.toInt() in 97..122)
+            result.add(symbol.toInt() + 10 - 97)
         else
-            result.add(symb.toInt() - 48)
+            result.add(symbol.toInt() - 48)
     }
     return decimal(result, base)
 }
@@ -355,9 +358,11 @@ fun decision(n: Int, s1: Char, s2: Char, s3: Char): String {    //IVX
 fun russian(n: Int): String {
     var result = ""
     result += threeRank(n / 1000)
-    when (n / 1000 % 10) {
-        1 -> result = result.substring(0, result.length - 3) + "на "
-        2 -> result = result.substring(0, result.length - 2) + "е "
+    if (n / 10000 % 10 != 1) {
+        when (n / 1000 % 10) {
+            1 -> result = result.substring(0, result.length - 3) + "на "
+            2 -> result = result.substring(0, result.length - 2) + "е "
+        }
     }
     if (n / 10000 % 10 == 1) result += "тысяч "
     else when (n / 1000 % 10) {
@@ -398,5 +403,7 @@ fun threeRank(n: Int): String {
     }
     if (n % 10 - 1 > 0)
         result += numbers[n % 10 - 1] + " "
+    else if (n % 10 == 1)
+        result += "один "
     return result
 }

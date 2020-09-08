@@ -48,11 +48,9 @@ class Tests {
     @Tag("Example")
     fun invertPositives() {
         val list1 = mutableListOf(1, 2, 3)
-        invertPositives(list1)
-        assertEquals(listOf(-1, -2, -3), list1)
+        assertEquals(listOf(-1, -2, -3), invertPositives(list1))
         val list2 = mutableListOf(-1, 2, 4, -5)
-        invertPositives(list2)
-        assertEquals(listOf(-1, -2, -4, -5), list2)
+        assertEquals(listOf(-1, -2, -4, -5), invertPositives(list2))
     }
 
     @Test
@@ -100,6 +98,7 @@ class Tests {
         assertEquals(1.0, mean(listOf(1.0)), 1e-5)
         assertEquals(2.0, mean(listOf(3.0, 1.0, 2.0)), 1e-5)
         assertEquals(3.0, mean(listOf(0.0, 2.0, 7.0, 8.0, -2.0)), 1e-5)
+        assertEquals(5.0, mean(listOf(0.0, 12.0, 10.0, 2.0, 1.0)))
     }
 
     @Test
@@ -165,6 +164,9 @@ class Tests {
         assertEquals(listOf(2), factorize(2))
         assertEquals(listOf(3, 5, 5), factorize(75))
         assertEquals(listOf(2, 3, 3, 19), factorize(342))
+        assertEquals(listOf(7, 7, 31, 31, 151, 151), factorize(1073676289))
+        assertEquals(listOf(1073676287), factorize(1073676287))
+        assertEquals(listOf(Int.MAX_VALUE), factorize(Int.MAX_VALUE))
     }
 
     @Test
@@ -237,6 +239,9 @@ class Tests {
         assertEquals("две тысячи три", russian(2003))
         assertEquals("двести тысяч два", russian(200002))
         assertEquals("девятьсот тысяч", russian(900000))
+        assertEquals("десять тысяч", russian(10000))
         assertEquals("двенадцать", russian(12))
+        assertEquals("двести тридцать пять тысяч семьсот шестнадцать", russian(235716))
+        assertEquals("девятьсот девяносто девять тысяч девятьсот девяносто девять", russian(999999))
     }
 }

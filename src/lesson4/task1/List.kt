@@ -342,7 +342,8 @@ fun decision(n: Int, s1: Char, s2: Char, s3: Char): String {    //IVX
                     dec += s1
             }
             4 -> dec += s1.toString() + s2.toString()
-            else -> dec += s1
+            else -> for (i in 1..n)
+                dec += s1
         }
     }
     return dec

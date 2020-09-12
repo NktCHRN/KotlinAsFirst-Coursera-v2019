@@ -397,5 +397,5 @@ fun fibSequenceDigit(n: Int): Int {
         c++
     }
     f = (f / (10.0.pow(-numbersLeft).toInt())) % 10
-    return  f
+    return f
 }

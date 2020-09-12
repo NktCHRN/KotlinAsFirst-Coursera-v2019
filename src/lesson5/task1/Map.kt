@@ -171,7 +171,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
     val result: MutableMap<String, String> = mapA.toMutableMap()
     for ((k, v) in mapB) {
-        if (k in result) {
+        if (result.contains(k)) {
             if (result[k] != null) {
                 if (v !in result[k]!!.split(", ")) result[k] += ", $v"
             }
@@ -279,10 +279,11 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    for (word in words) {
-        for (reversedWord in words) {
-            if (word == reversedWord.reversed()) return true
-        }
+    var word: String
+    for (i in words.indices) {
+        word = words[i]
+        for (reversedWord in words.drop(i + 1))
+            if (word.toCharArray().sorted() == reversedWord.toCharArray().sorted()) return true
     }
     return false
 }
@@ -311,7 +312,18 @@ fun hasAnagrams(words: List<String>): Boolean {
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    val result: MutableMap<String, MutableSet<String>> = mutableMapOf()
+    val showAll: MutableSet<String> = mutableSetOf()
+    for ((person, acquaintances) in friends) {
+        showAll.add(person)
+        showAll += acquaintances
+    }
+    for (person in showAll) {
+        result[person] = friends[person]?.toMutableSet() ?: mutableSetOf()
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -330,7 +342,12 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    for (n in list.indices)
+        for (m in list.indices)
+            if (m != n && list[n] + list[m] == number) return Pair(n, m)
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная
@@ -353,4 +370,41 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    val mList: MutableList<Int> = mutableListOf()
+    for ((i, _) in treasures.filterValues { (l, _) -> l < capacity }.values) {
+        mList.add(i)
+    }
+    val tempList: MutableList<Triple<MutableSet<String>, Int, Int>> = mutableListOf()
+    val maxItems = mi(mList, capacity)
+    val treasuresFiltered = treasures.filterValues { (l, _) -> l < capacity }
+    val treasuresSorted =
+        treasuresFiltered.toList().sortedBy { (_, value) -> (value.second.toDouble() / value.first.toDouble()) }.toMap()
+    println(treasuresSorted)
+    for ((i, j) in treasuresSorted) {
+        tempList.add(Triple(mutableSetOf(i), j.first, j.second))
+        for (n in maxItems downTo 1) {
+
+            for (m in maxItems..1) {
+                for ((i, j) in treasuresSorted) {
+
+                }
+            }
+        }
+    }
+    if (tempList.isEmpty())
+        return emptySet()
+    return tempList.maxBy { it.third }!!.first
+}
+
+fun mi(allWeights: List<Int>, capacity: Int): Int {
+    var maxItems = 0
+    var weight = 0
+    while (weight <= capacity) {
+        if (weight <= capacity && allWeights.size > maxItems) {
+            weight += allWeights[maxItems]
+            maxItems++
+        } else break
+    }
+    return maxItems
+}

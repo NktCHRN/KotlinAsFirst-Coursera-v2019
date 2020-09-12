@@ -262,6 +262,7 @@ class Tests {
         assertFalse(hasAnagrams(emptyList()))
         assertTrue(hasAnagrams(listOf("рот", "свет", "тор")))
         assertFalse(hasAnagrams(listOf("рот", "свет", "код", "дверь")))
+        assertTrue(hasAnagrams(listOf("az", "az")))
     }
 
     @Test
@@ -311,6 +312,25 @@ class Tests {
             Pair(-1, -1),
             findSumOfTwo(listOf(1, 2, 3), 6)
         )
+        assertEquals(
+            Pair(1, 2),
+            findSumOfTwo(listOf(1, 2, 2), 4)
+        )
+        assertEquals(
+            Pair(9, 10),
+            findSumOfTwo(listOf(1, 1, 2, 3, 4, 4, 4, 7777, 88888, 82318, 700000), 782318)
+        )
+        assertEquals(
+            Pair(9, 10),
+            findSumOfTwo(listOf(1, 1, 2, 3, 4, 4, 4, 7777, 88888, 700000, 82318), 782318)
+        )
+        assertEquals(
+            Pair(10, 12),
+            findSumOfTwo(
+                listOf(1, 1, 2, 3, 4, 4, 4, 7777, 88888, 700000, 147483647, 10000000, 2000000000),
+                Int.MAX_VALUE
+            )
+        )
     }
 
     @Test
@@ -328,6 +348,13 @@ class Tests {
             bagPacking(
                 mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
                 450
+            )
+        )
+        assertEquals(
+            setOf("Кубок", "Кости"),
+            bagPacking(
+                mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000), "Кости" to (150 to 3000)),
+                850
             )
         )
     }

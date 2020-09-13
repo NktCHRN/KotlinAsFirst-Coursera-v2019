@@ -150,13 +150,15 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    if (n % 2 == 0) return n / 2
-    else if (isPrime(n)) return 1
-    else {
-        for (i in 3..(n / 2) step 2)
-            if (n % i == 0)
-                return n / i
-        return 1
+    when {
+        n % 2 == 0 -> return n / 2
+        isPrime(n) -> return 1
+        else -> {
+            for (i in 3..(n / 2) step 2)
+                if (n % i == 0)
+                    return n / i
+            return 1
+        }
     }
 }
 
@@ -339,7 +341,7 @@ fun revert(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun isPalindrome(n: Int): Boolean =
-    if (revert(n) == n) true else false
+    revert(n) == n
 
 /**
  * Средняя

@@ -371,40 +371,67 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    val mList: MutableList<Int> = mutableListOf()
-    for ((i, _) in treasures.filterValues { (l, _) -> l < capacity }.values) {
-        mList.add(i)
-    }
-    val tempList: MutableList<Triple<MutableSet<String>, Int, Int>> = mutableListOf()
-    val maxItems = mi(mList, capacity)
-    val treasuresFiltered = treasures.filterValues { (l, _) -> l < capacity }
-    val treasuresSorted =
-        treasuresFiltered.toList().sortedBy { (_, value) -> (value.second.toDouble() / value.first.toDouble()) }.toMap()
-    println(treasuresSorted)
-    for ((i, j) in treasuresSorted) {
-        tempList.add(Triple(mutableSetOf(i), j.first, j.second))
-        for (n in maxItems downTo 1) {
-
-            for (m in maxItems..1) {
-                for ((i, j) in treasuresSorted) {
-
-                }
-            }
+    val v = getMemTable(treasures, capacity).first
+    val weight = getMemTable(treasures, capacity).second
+    val value = getMemTable(treasures, capacity).third
+    val n = value.size
+    var res = v[n][capacity]
+    var capacityNow = capacity
+    val itemsList: MutableList<Pair<Int, Int>> = mutableListOf()
+    for (i in n downTo 1) { //!
+        if (res <= 0)
+            break
+        if (res == v[i - 1][capacityNow])
+            continue
+        else {
+            itemsList.add(Pair(weight[i - 1], value[i - 1]))
+            res -= value[i - 1]
+            capacityNow -= weight[i - 1]
         }
     }
-    if (tempList.isEmpty())
-        return emptySet()
-    return tempList.maxBy { it.third }!!.first
+    val selected: MutableSet<String> = mutableSetOf()
+    for (s in itemsList) {
+        for ((k, v) in treasures) {
+            if (v == s)
+                selected.add(k)
+        }
+    }
+    return selected
 }
 
-fun mi(allWeights: List<Int>, capacity: Int): Int {
-    var maxItems = 0
-    var weight = 0
-    while (weight <= capacity) {
-        if (weight <= capacity && allWeights.size > maxItems) {
-            weight += allWeights[maxItems]
-            maxItems++
-        } else break
+fun getWeightAndValue(treasures: Map<String, Pair<Int, Int>>): Pair<List<Int>, List<Int>> {
+    val weight: MutableList<Int> = mutableListOf()
+    val value: MutableList<Int> = mutableListOf()
+    for ((i, j) in treasures.values) {
+        weight.add(i)
+        value.add(j)
     }
-    return maxItems
+    return Pair(weight, value)
+}
+
+fun getMemTable(
+    treasures: Map<String, Pair<Int, Int>>,
+    capacity: Int
+): Triple<MutableList<MutableList<Int>>, List<Int>, List<Int>> {
+    val weight: List<Int> = getWeightAndValue(treasures).first
+    val value: List<Int> = getWeightAndValue(treasures).second
+    val n = value.size
+    val v: MutableList<MutableList<Int>> = mutableListOf(mutableListOf())
+    v.clear()
+    for (i in 0..n) {
+        v.add(mutableListOf())
+        for (a in 0..capacity)
+            v[i].add(0)
+    }
+    for (i in 0..n) {
+        for (a in 0..capacity) {
+            if (i == 0 || a == 0)
+                v[i][a] = 0
+            else if (weight[i - 1] <= a)
+                v[i][a] = maxOf(value[i - 1] + v[i - 1][a - weight[i - 1]], v[i - 1][a])
+            else
+                v[i][a] = v[i - 1][a]
+        }
+    }
+    return Triple(v, weight, value)
 }

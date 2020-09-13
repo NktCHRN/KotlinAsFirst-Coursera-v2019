@@ -390,11 +390,9 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
             capacityNow -= weight[i - 1]
         }
     }
-    println(itemsList)
     val selected: MutableSet<String> = mutableSetOf()
     var nextPair = false
     for (s in itemsList.indices) {
-        println(s)
         for ((k, v) in treasures) {
             if (v == itemsList[s] && k !in selected) {
                 selected.add(k)

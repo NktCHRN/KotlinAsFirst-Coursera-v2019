@@ -370,6 +370,19 @@ class Tests {
                 850
             )
         )
+        assertEquals(
+            setOf("Слиток"),
+            bagPacking(
+                mapOf(
+                    "Кубок" to (500 to 2000),
+                    "Слиток" to (100 to 1000),
+                    "Изумруд" to (100 to 1000),
+                    "Череп" to (75 to 100),
+                    "Корона" to (300 to 5)
+                ),
+                100
+            )
+        )
     }
 
     // TODO: map task tests

@@ -312,7 +312,7 @@ fun hasAnagrams(words: List<String>): Boolean {
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {  //НЕ РАБОТАЕТ!
     val result: MutableMap<String, MutableSet<String>> = mutableMapOf()
     val showAll: MutableSet<String> = mutableSetOf()
     for ((person, acquaintances) in friends) {
@@ -395,6 +395,8 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         for ((k, v) in treasures) {
             if (v == s)
                 selected.add(k)
+            if (itemsList.size == selected.size)
+                break
         }
     }
     return selected

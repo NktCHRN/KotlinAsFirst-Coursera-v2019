@@ -376,13 +376,14 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     val weight = getMemTable(treasuresFiltered, capacity).second
     val value = getMemTable(treasuresFiltered, capacity).third
     val n = value.size
-    var res = v[n][capacity]
+    val gcd = gcd(weight + capacity)
+    var res = v[n][capacity / gcd]
     var capacityNow = capacity
     val itemsList: MutableList<Pair<Int, Int>> = mutableListOf()
     for (i in n downTo 1) {
         if (res <= 0)
             break
-        if (res == v[i - 1][capacityNow])
+        if (res == v[i - 1][capacityNow / gcd])
             continue
         else {
             itemsList.add(Pair(weight[i - 1], value[i - 1]))
@@ -420,21 +421,31 @@ fun getMemTable(
     val value: List<Int> = getWeightAndValue(treasures).second
     val n = value.size
     val v: MutableList<MutableList<Int>> = mutableListOf(mutableListOf())
+    val gcd = gcd(weight + capacity)
+    var aN: Int
     v.clear()
     for (i in 0..n) {
         v.add(mutableListOf())
-        for (a in 0..capacity)
+        for (a in 0..capacity step gcd)
             v[i].add(0)
     }
     for (i in 0..n) {
-        for (a in 0..capacity) {
-            if (i == 0 || a == 0)
-                v[i][a] = 0
+        for (a in 0..capacity step gcd) {
+            aN = a / gcd
+            if (i == 0 || aN == 0)
+                v[i][aN] = 0
             else if (weight[i - 1] <= a)
-                v[i][a] = maxOf(value[i - 1] + v[i - 1][a - weight[i - 1]], v[i - 1][a])
+                v[i][aN] = maxOf(value[i - 1] + v[i - 1][(a - weight[i - 1]) / gcd], v[i - 1][aN])
             else
-                v[i][a] = v[i - 1][a]
+                v[i][aN] = v[i - 1][aN]
         }
     }
     return Triple(v, weight, value)
+}
+
+fun gcd(list: List<Int>): Int {
+    for (i in list.sorted()[0] downTo 1) {
+        if (list.all { it % i == 0 }) return i
+    }
+    return 1
 }

@@ -41,6 +41,7 @@ class Tests {
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
         assertEquals("", dateStrToDigit("32 сентября 2011"))
         assertEquals("", dateStrToDigit("29 февраля 1993"))
+        assertEquals("", dateStrToDigit("29 февраля sasa"))
     }
 
     @Test
@@ -53,6 +54,8 @@ class Tests {
         assertEquals("", dateDigitToStr("ab.cd.ef"))
         assertEquals("", dateDigitToStr("32.09.2011"))
         assertEquals("", dateDigitToStr("29.02.1993"))
+        assertEquals("", dateDigitToStr("1.02.1993"))
+        assertEquals("", dateDigitToStr("01.13.1993"))
     }
 
     @Test
@@ -66,6 +69,7 @@ class Tests {
         assertEquals("+42566789", flattenPhoneNumber("+42(56 -- 67)89"))
         assertEquals("", flattenPhoneNumber("ab-123"))
         assertEquals("", flattenPhoneNumber("134_+874"))
+        assertEquals("", flattenPhoneNumber("a9"))
     }
 
     @Test
@@ -84,6 +88,8 @@ class Tests {
         assertEquals(226, bestHighJump("226 +"))
         assertEquals(-1, bestHighJump("???"))
         assertEquals(230, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 %"))
+        assertEquals(-1, bestHighJump("220 + 224 %&+ 228 %- 230 + 232 %%- 234 %"))
+        assertEquals(-1, bestHighJump("220s + 224 %+ 228 %- 230 + 232 %%- 234 %"))
     }
 
     @Test
@@ -98,6 +104,7 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { plusMinus("4 - -2") }
         assertThrows(IllegalArgumentException::class.java) { plusMinus("44 - - 12") }
         assertThrows(IllegalArgumentException::class.java) { plusMinus("4 - + 12") }
+        assertThrows(IllegalArgumentException::class.java) { plusMinus("") }
     }
 
     @Test
@@ -107,6 +114,8 @@ class Tests {
         assertEquals(9, firstDuplicateIndex("Он пошёл в в школу"))
         assertEquals(40, firstDuplicateIndex("Яблоко упало на ветку с ветки оно упало на на землю"))
         assertEquals(9, firstDuplicateIndex("Мы пошли прямо Прямо располагался магазин"))
+        assertEquals(0, firstDuplicateIndex("a a"))
+        assertEquals(0, firstDuplicateIndex("a a a a"))
     }
 
     @Test
@@ -115,6 +124,11 @@ class Tests {
         assertEquals("", mostExpensive(""))
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
+        assertEquals("", mostExpensive("Хлеб bread; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
+        assertEquals("", mostExpensive("Хлеб 39.9 Молоко 62.5; Курица 184.0; Конфеты 89.9"))
+        assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184; Конфеты 89.9"))
+        assertEquals("", mostExpensive("Хлеб 39.9sasa; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
+        assertEquals("", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты none"))
     }
 
     @Test

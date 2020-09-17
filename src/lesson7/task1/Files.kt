@@ -300,7 +300,26 @@ fun wordsOnly(inputName: String): List<String> {
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    var tempLine: String
+    val newDictionary: MutableMap<Char, String> = mutableMapOf()
+    for ((k, v) in dictionary) {
+        newDictionary[k.toLowerCase()] = v
+    }
+    for (line in File(inputName).readLines()) {
+        tempLine = ""
+        for (s in line) {
+            if (s.toLowerCase() in newDictionary.keys) {
+                tempLine += if (s.toUpperCase() == s)
+                    newDictionary[s.toLowerCase()]?.toLowerCase()?.capitalize()
+                else
+                    newDictionary[s]?.toLowerCase()
+            } else tempLine += s
+        }
+        outputStream.write(tempLine)
+        outputStream.newLine()
+    }
+    outputStream.close()
 }
 
 /**
@@ -328,7 +347,33 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val words: MutableList<String> = mutableListOf()
+    var chaoticWords: List<String>
+    for (line in File(inputName).readLines()) {
+        words.add(line.trim())
+    }
+    chaoticWords = words.filter { chaosCheck(it) }
+    chaoticWords = chaoticWords.filter { it.length == maxL(chaoticWords) }
+    val outputStream = File(outputName).bufferedWriter()
+    outputStream.write(chaoticWords.joinToString(", "))
+    outputStream.close()
+}
+
+fun chaosCheck(word: String): Boolean {
+    val letters: MutableList<Char> = mutableListOf()
+    for (l in word.toLowerCase()) {
+        letters.add(l)
+    }
+    return letters == letters.toSet().toList()
+}
+
+fun maxL(list: List<String>): Int {
+    var result = 0
+    for (word in list) {
+        if (word.length > result)
+            result = word.length
+    }
+    return result
 }
 
 /**

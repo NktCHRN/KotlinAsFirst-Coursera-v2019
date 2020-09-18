@@ -422,7 +422,74 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    outputStream.write("<html>")
+    outputStream.newLine()
+    outputStream.write("<body>")
+    outputStream.newLine()
+    val close: MutableList<Boolean> = mutableListOf(false, false, false)
+    var ignore = false
+    var tempLine: String
+    outputStream.write("<p>")
+    loop@ for (i in File(inputName).readLines().indices) {
+        outputStream.newLine()
+        tempLine = ""
+        if (File(inputName).readLines()[i].trim().isEmpty()) {
+            outputStream.write("</p>")
+            outputStream.newLine()
+            outputStream.write("<p>")
+            continue@loop
+        } else {
+            for (j in File(inputName).readLines()[i].indices) {
+                if (ignore) {
+                    ignore = false
+                    continue
+                } else {
+                    when (File(inputName).readLines()[i][j]) {
+                        '*' -> if (File(inputName).readLines()[i][j + 1] == '*') {
+                            if (close[1]) {
+                                tempLine += "</b>"
+                                ignore = true
+                                close[1] = false
+                            } else {
+                                tempLine += "<b>"
+                                ignore = true
+                                close[1] = true
+                            }
+                        } else {
+                            if (close[0]) {
+                                tempLine += "</i>"
+                                close[0] = false
+                            } else {
+                                tempLine += "<i>"
+                                close[0] = true
+                            }
+                        }
+                        '~' -> if (File(inputName).readLines()[i][j + 1] == '~') {
+                            if (close[2]) {
+                                tempLine += "</s>"
+                                ignore = true
+                                close[2] = false
+                            } else {
+                                tempLine += "<s>"
+                                ignore = true
+                                close[2] = true
+                            }
+                        } else tempLine += File(inputName).readLines()[i][j]
+                        else -> tempLine += File(inputName).readLines()[i][j]
+                    }
+                }
+            }
+        }
+        outputStream.write(tempLine)
+    }
+    outputStream.newLine()
+    outputStream.write("</p>")
+    outputStream.newLine()
+    outputStream.write("</body>")
+    outputStream.newLine()
+    outputStream.write("</html>")
+    outputStream.close()
 }
 
 /**
@@ -593,4 +660,3 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
-

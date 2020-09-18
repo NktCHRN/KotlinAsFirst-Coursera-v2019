@@ -692,5 +692,33 @@ fun addDashes(howMany: Int): String {
  *
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    outputStream.write(" $lhv | $rhv")
+    outputStream.newLine()
+    var numberString = ""
+    var lastIndex = 0
+    for (i in lhv.toString().indices) {
+        numberString += lhv.toString()[i].toString().toInt()
+        if (numberString.toInt() / rhv != 0 || i == lhv.toString().length - 1) {
+            lastIndex = i
+            numberString = (numberString.toInt() - numberString.toInt() % rhv).toString()
+            break
+        }
+    }
+    outputStream.write("-$numberString" + addSpaces(lhv.toString().length - numberString.length + 3) + (lhv / rhv).toString())
+    for (i in lastIndex + 1 until lhv.toString().length) {
+        outputStream.newLine()
+        outputStream.write(addSpaces(i - numberString.length) + addDashes(numberString.length + 1))
+        outputStream.newLine()
+        numberString = (lhv.toString().substring(0, i).toInt() % rhv).toString() + lhv.toString()[i]
+        outputStream.write(addSpaces(i + 2 - numberString.length) + numberString)
+        outputStream.newLine()
+        numberString = (numberString.toInt() - numberString.toInt() % rhv).toString()
+        outputStream.write(addSpaces(i + 1 - numberString.length) + "-$numberString")
+    }
+    outputStream.newLine()
+    outputStream.write(addSpaces(lhv.toString().length - numberString.length) + addDashes(numberString.length + 1))
+    outputStream.newLine()
+    outputStream.write(addSpaces(lhv.toString().length) + (lhv % rhv).toString())
+    outputStream.close()
 }

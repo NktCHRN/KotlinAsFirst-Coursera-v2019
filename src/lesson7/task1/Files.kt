@@ -140,8 +140,8 @@ fun centerFile(inputName: String, outputName: String) {
 fun maxLength(inputName: String): Int {
     var result = 0
     for (line in File(inputName).readLines()) {
-        if (line.length > result)
-            result = line.length
+        if (line.trim().length > result)
+            result = line.trim().length
     }
     return result
 }
@@ -633,9 +633,43 @@ fun markdownToHtml(inputName: String, outputName: String) {
  *
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val length = (lhv * rhv).toString().length + 1
+    outputStream.write(addSpaces(length - lhv.toString().length) + lhv)
+    outputStream.newLine()
+    outputStream.write("*" + addSpaces(length - 1 - rhv.toString().length) + rhv)
+    outputStream.newLine()
+    outputStream.write(addDashes(length))
+    var resultNow: Int
+    for (i in rhv.toString().indices) {
+        outputStream.newLine()
+        resultNow = lhv * rhv.toString()[rhv.toString().length - 1 - i].toString().toInt()
+        if (i == 0)
+            outputStream.write(addSpaces(length - resultNow.toString().length) + resultNow)
+        else outputStream.write("+" + addSpaces(length - resultNow.toString().length - 1 - i) + resultNow)
+    }
+    outputStream.newLine()
+    outputStream.write(addDashes(length))
+    outputStream.newLine()
+    outputStream.write(" " + lhv * rhv)
+    outputStream.close()
 }
 
+fun addSpaces(howMany: Int): String {
+    var result = ""
+    for (i in 0 until howMany) {
+        result += " "
+    }
+    return result
+}
+
+fun addDashes(howMany: Int): String {
+    var result = ""
+    for (i in 0 until howMany) {
+        result += "-"
+    }
+    return result
+}
 
 /**
  * Сложная
